@@ -1,0 +1,124 @@
+/**
+ * KodNest Premium Build System — Layout
+ * [Top Bar] → [Context Header] → [Workspace + Panel] → [Proof Footer]
+ * Every page must follow this structure.
+ */
+
+/* ——— App shell ——— */
+.kn-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ——— Top Bar ——— */
+.kn-topbar {
+  height: var(--kn-topbar-height);
+  padding: 0 var(--kn-space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: var(--kn-border);
+  background: var(--kn-background);
+  flex-shrink: 0;
+}
+
+.kn-topbar__project {
+  font-family: var(--kn-font-sans);
+  font-size: var(--kn-caption-size);
+  font-weight: 600;
+  color: var(--kn-text);
+}
+
+.kn-topbar__progress {
+  font-size: var(--kn-caption-size);
+  color: var(--kn-text);
+  opacity: 0.85;
+}
+
+.kn-topbar__status {
+  /* Badge lives here; see components.css .kn-badge */
+}
+
+/* ——— Context Header ——— */
+.kn-context-header {
+  padding: var(--kn-space-4) var(--kn-space-3) var(--kn-space-3);
+  border-bottom: var(--kn-border);
+  flex-shrink: 0;
+}
+
+.kn-context-header h1 {
+  margin-bottom: var(--kn-space-1);
+}
+
+.kn-context-header__sub {
+  font-size: var(--kn-body-size);
+  line-height: var(--kn-line-height-body);
+  color: var(--kn-text);
+  opacity: 0.9;
+  max-width: var(--kn-text-max-width);
+}
+
+/* ——— Main content: Workspace + Panel ——— */
+.kn-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.kn-workspace {
+  width: var(--kn-workspace-ratio);
+  padding: var(--kn-space-3);
+  overflow-auto;
+}
+
+.kn-panel {
+  width: var(--kn-panel-ratio);
+  padding: var(--kn-space-3);
+  border-left: var(--kn-border);
+  background: var(--kn-background);
+  overflow-auto;
+}
+
+.kn-panel__title {
+  font-family: var(--kn-font-sans);
+  font-size: var(--kn-caption-size);
+  font-weight: 600;
+  margin: 0 0 var(--kn-space-2) 0;
+  color: var(--kn-text);
+}
+
+.kn-panel__text {
+  font-size: var(--kn-caption-size);
+  line-height: var(--kn-line-height-body);
+  margin: 0 0 var(--kn-space-2) 0;
+  color: var(--kn-text);
+  opacity: 0.9;
+}
+
+/* ——— Proof Footer (persistent) ——— */
+.kn-proof-footer {
+  height: var(--kn-footer-height);
+  padding: 0 var(--kn-space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--kn-space-4);
+  border-top: var(--kn-border);
+  background: var(--kn-background);
+  flex-shrink: 0;
+}
+
+.kn-proof-footer__item {
+  display: flex;
+  align-items: center;
+  gap: var(--kn-space-1);
+  font-size: var(--kn-caption-size);
+  color: var(--kn-text);
+}
+
+.kn-proof-footer__item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--kn-accent);
+  cursor: pointer;
+}

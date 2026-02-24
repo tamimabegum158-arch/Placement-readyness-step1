@@ -1,0 +1,9 @@
+{
+  "name": "placement-readiness-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npx serve . -l 3001",
+    "open": "start http://localhost:3001"
+  }
+}
