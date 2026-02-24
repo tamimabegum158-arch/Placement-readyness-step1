@@ -8,7 +8,7 @@ function generateId() {
  * Save analysis result to localStorage and return the saved entry (with id, createdAt).
  * Stores baseReadinessScore so live score can be recomputed from skill toggles.
  */
-export function saveAnalysis({ company, role, jdText, extractedSkills, plan, checklist, questions, readinessScore }) {
+export function saveAnalysis({ company, role, jdText, extractedSkills, plan, checklist, questions, readinessScore, companyIntel, roundMapping }) {
   const base = readinessScore ?? 0
   const entry = {
     id: generateId(),
@@ -23,6 +23,8 @@ export function saveAnalysis({ company, role, jdText, extractedSkills, plan, che
     readinessScore: base,
     baseReadinessScore: base,
     skillConfidenceMap: {},
+    companyIntel: companyIntel ?? null,
+    roundMapping: roundMapping ?? null,
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY)

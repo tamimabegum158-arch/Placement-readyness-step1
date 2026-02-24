@@ -65,3 +65,20 @@
 ## Action Next Box
 - **Expected:** Top 3 weak skills (practice-marked); suggests "Start Day 1 plan now."; clear, not noisy, not gamified.
 - **Implementation:** `top3Weak = practiceSkills.slice(0, 3)`; one line "Start Day 1 plan now."; minimal copy.
+
+---
+
+# Step 6 Verification Checklist (Company Intel & Round Mapping)
+
+## Company Intel
+- **Amazon:** Classified as Enterprise (2000+); Typical hiring focus = "Structured DSA and core CS fundamentals...".
+- **XyzTech (unknown):** Defaults to Startup (<200); Typical hiring focus = "Practical problem-solving and stack depth...".
+- **Empty company:** No company intel card; `entry.companyIntel` is null; no crash. Demo note only when intel is shown.
+
+## Round Mapping
+- **Infosys + DSA, OOP, SQL:** Enterprise + DSA → 4 rounds: Online Test (DSA + Aptitude) → Technical (DSA + Core CS) → Tech + Projects → HR.
+- **StartupX + React, Node.js:** Startup + hasReactNode → 3 rounds: Practical coding → System discussion → Culture fit.
+- **Timeline:** Vertical layout; numbered circles; connector line between rounds; each round shows "Why this round matters".
+
+## Persistence
+- Analysis with company → History → open same entry: company intel and round mapping still visible (stored in entry; not overwritten by skill toggles).

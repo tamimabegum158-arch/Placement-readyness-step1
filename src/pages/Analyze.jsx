@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/card'
 import { runAnalysis } from '@/lib/jdAnalysis'
 import { saveAnalysis } from '@/lib/historyStorage'
+import { getCompanyIntel } from '@/lib/companyIntel'
+import { generateRoundMapping } from '@/lib/roundMapping'
 
 export default function Analyze() {
   const navigate = useNavigate()
@@ -29,11 +31,17 @@ export default function Analyze() {
     setLoading(true)
     try {
       const result = runAnalysis(company.trim(), role.trim(), trimmedJd)
+      const companyTrimmed = company.trim()
+      const companyIntel = companyTrimmed ? getCompanyIntel(companyTrimmed, trimmedJd) : null
+      const companySize = companyIntel?.sizeCategory ?? 'startup'
+      const roundMapping = generateRoundMapping(result.extractedSkills, companySize)
       const entry = saveAnalysis({
-        company: company.trim(),
+        company: companyTrimmed,
         role: role.trim(),
         jdText: trimmedJd,
         ...result,
+        companyIntel,
+        roundMapping,
       })
       navigate('/dashboard/results', { state: { entry }, replace: false })
     } catch (err) {

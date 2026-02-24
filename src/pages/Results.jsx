@@ -224,6 +224,37 @@ export default function Results() {
         </CardContent>
       </Card>
 
+      {/* Company Intel – only when company name was provided */}
+      {entry.companyIntel && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Company intel</CardTitle>
+            <CardDescription>Heuristic estimate from company name and JD</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm font-medium text-gray-500">Company</p>
+              <p className="text-gray-900">{entry.companyIntel.companyName}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-500">Industry</p>
+              <p className="text-gray-900">{entry.companyIntel.industry}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-500">Estimated size</p>
+              <p className="text-gray-900">{entry.companyIntel.sizeLabel}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-500">Typical hiring focus</p>
+              <p className="text-sm text-gray-700 leading-relaxed">{entry.companyIntel.typicalHiringFocus}</p>
+            </div>
+            <p className="text-xs text-gray-500 pt-2 border-t border-gray-100">
+              Demo Mode: Company intel generated heuristically.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Key skills extracted – with toggles */}
       <Card>
         <CardHeader>
@@ -329,6 +360,37 @@ export default function Results() {
           </button>
         </CardContent>
       </Card>
+
+      {/* Round mapping – vertical timeline */}
+      {entry.roundMapping && entry.roundMapping.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Round mapping</CardTitle>
+            <CardDescription>Expected flow based on company size and detected skills</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="relative space-y-0">
+              {entry.roundMapping.map((round, index) => (
+                <div key={round.roundNumber} className="flex gap-4 pb-6 last:pb-0">
+                  <div className="flex flex-col items-center shrink-0">
+                    <div className="w-8 h-8 rounded-full border-2 border-primary bg-white flex items-center justify-center text-sm font-medium text-primary">
+                      {round.roundNumber}
+                    </div>
+                    {index < entry.roundMapping.length - 1 && (
+                      <div className="w-0.5 flex-1 min-h-[32px] bg-gray-200 mt-1" aria-hidden />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0 pt-0.5">
+                    <h4 className="font-medium text-gray-900">{round.title}</h4>
+                    <p className="text-sm text-gray-600 mt-0.5">{round.description}</p>
+                    <p className="text-xs text-gray-500 mt-2 italic">Why this round matters: {round.whyItMatters}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Round-wise checklist */}
       <Card>
