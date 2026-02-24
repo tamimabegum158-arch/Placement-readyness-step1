@@ -104,3 +104,28 @@
 
 ## Corruption
 - Invalid/corrupted entry in localStorage → skipped; message "One saved entry couldn't be loaded. Create a new analysis."; no crash.
+
+---
+
+# Step 8 Verification Checklist (Test checklist & ship lock)
+
+## Checklist rendering
+- /prp/07-test shows all 10 items; each has checkbox and optional "How to test" hint.
+
+## Persistence
+- Check 5 items → refresh → still 5/10; close browser, reopen → state persists (localStorage key prp_test_checklist).
+
+## Counter
+- Check items one by one → "Tests Passed: X / 10" updates immediately.
+
+## Warning
+- When X < 10: "Fix issues before shipping." visible; when all 10 checked: warning hidden.
+
+## Ship lock (no bypass)
+- With <10 checked, visiting /prp/08-ship redirects to /prp/07-test (replace: true). Ship content only visible when all 10 passed.
+
+## Reset
+- "Reset checklist" unchecks all; counter 0/10; refresh → reset persisted.
+
+## Console
+- Navigate Home, Results, History, Test page → zero console errors on core flows.
