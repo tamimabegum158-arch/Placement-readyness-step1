@@ -41,3 +41,27 @@
 3. Analyze again with "Looking for a strong leader with communication skills." → confirm "General fresher stack".
 4. Go to History → confirm entry listed → refresh → still there → click entry → full results load.
 5. Submit empty JD → confirm validation message.
+
+---
+
+# Step 5 Verification Checklist (Interactive Results & Export)
+
+## Skill Toggle Test
+- **Expected:** Each skill has "I know this" / "Need practice"; default = Need practice; toggling one to "I know this" increases readiness score instantly.
+- **Implementation:** `skillConfidenceMap[skill] || 'practice'`; `setSkillConfidence` → `updateEntry({ skillConfidenceMap, readinessScore: liveScore })`; `computeLiveScore(base + 2*know - 2*practice)` with `clampScore(0, 100)`.
+
+## Score Bounds
+- **Expected:** All "I know" → score ≤ 100; all "Need practice" → score ≥ 0; no negatives, no overflow.
+- **Implementation:** `clampScore(score) = Math.min(100, Math.max(0, Math.round(score)))`.
+
+## Persistence
+- **Expected:** Toggle skills → refresh → toggles preserved; open same entry from History → toggles and updated score retained.
+- **Implementation:** Every toggle calls `updateHistoryEntry(entry.id, { skillConfidenceMap, readinessScore })`; History loads via `getHistoryById(id)` from localStorage.
+
+## Export
+- **Expected:** Copy 7-day plan / Copy checklist / Copy 10 questions (plain text); Download as TXT with Company, Role, Score, Skills, Checklist, Plan, Questions. No detected skills (General fresher) → TXT still valid.
+- **Implementation:** `planToText`, `checklistToText`, `questionsToText`; `buildFullTxt(entry)` includes all sections; General category yields "General: General fresher stack" and plan/checklist/questions from analysis.
+
+## Action Next Box
+- **Expected:** Top 3 weak skills (practice-marked); suggests "Start Day 1 plan now."; clear, not noisy, not gamified.
+- **Implementation:** `top3Weak = practiceSkills.slice(0, 3)`; one line "Start Day 1 plan now."; minimal copy.

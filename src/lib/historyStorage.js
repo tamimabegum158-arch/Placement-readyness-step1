@@ -6,8 +6,10 @@ function generateId() {
 
 /**
  * Save analysis result to localStorage and return the saved entry (with id, createdAt).
+ * Stores baseReadinessScore so live score can be recomputed from skill toggles.
  */
 export function saveAnalysis({ company, role, jdText, extractedSkills, plan, checklist, questions, readinessScore }) {
+  const base = readinessScore ?? 0
   const entry = {
     id: generateId(),
     createdAt: new Date().toISOString(),
@@ -18,7 +20,9 @@ export function saveAnalysis({ company, role, jdText, extractedSkills, plan, che
     plan: plan ?? [],
     checklist: checklist ?? [],
     questions: questions ?? [],
-    readinessScore: readinessScore ?? 0,
+    readinessScore: base,
+    baseReadinessScore: base,
+    skillConfidenceMap: {},
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -29,6 +33,25 @@ export function saveAnalysis({ company, role, jdText, extractedSkills, plan, che
   } catch (e) {
     console.error('saveAnalysis', e)
     return entry
+  }
+}
+
+/**
+ * Update an existing history entry by id. Merges updates (e.g. skillConfidenceMap, readinessScore).
+ * Persists to localStorage so changes survive refresh and reopen from History.
+ */
+export function updateHistoryEntry(id, updates) {
+  try {
+    const list = getAllHistory()
+    const index = list.findIndex((e) => e.id === id)
+    if (index === -1) return null
+    const updated = { ...list[index], ...updates }
+    list[index] = updated
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list))
+    return updated
+  } catch (e) {
+    console.error('updateHistoryEntry', e)
+    return null
   }
 }
 
