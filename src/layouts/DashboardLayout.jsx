@@ -5,10 +5,16 @@ import {
   ClipboardCheck,
   BookOpen,
   User,
+  Search,
+  FileText,
+  History,
 } from 'lucide-react'
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/dashboard/analyze', icon: Search, label: 'Analyze' },
+  { to: '/dashboard/results', icon: FileText, label: 'Results' },
+  { to: '/dashboard/history', icon: History, label: 'History' },
   { to: '/dashboard/practice', icon: Code2, label: 'Practice' },
   { to: '/dashboard/assessments', icon: ClipboardCheck, label: 'Assessments' },
   { to: '/dashboard/resources', icon: BookOpen, label: 'Resources' },
