@@ -82,3 +82,25 @@
 
 ## Persistence
 - Analysis with company → History → open same entry: company intel and round mapping still visible (stored in entry; not overwritten by skill toggles).
+
+---
+
+# Step 7 Verification Checklist (Data model & validation)
+
+## Empty JD
+- Submit without JD → blocked; error: "Please paste a job description to analyze."; no analysis created.
+
+## Short JD (<200 chars)
+- Paste e.g. "Hiring frontend developer." → warning shown; analysis still allowed; fallback skills when no keywords; no crash/undefined.
+
+## Schema (localStorage)
+- Entry has: extractedSkills (all categories), roundMapping, checklist, plan7Days, questions (max 10), baseScore, finalScore, updatedAt; no missing keys.
+
+## Fallback skills
+- Non-technical JD → "other" contains Communication, Problem solving, Basic coding, Projects; plan/checklist adapt.
+
+## Score stability
+- baseScore set at analyze only; toggles update finalScore; refresh and reopen from History → finalScore persists; baseScore unchanged.
+
+## Corruption
+- Invalid/corrupted entry in localStorage → skipped; message "One saved entry couldn't be loaded. Create a new analysis."; no crash.

@@ -13,9 +13,12 @@ import { History as HistoryIcon } from 'lucide-react'
 export default function History() {
   const navigate = useNavigate()
   const [entries, setEntries] = useState([])
+  const [corruptedCount, setCorruptedCount] = useState(0)
 
   useEffect(() => {
-    setEntries(getAllHistory())
+    const { entries: list, corruptedCount: skip } = getAllHistory()
+    setEntries(list)
+    setCorruptedCount(skip)
   }, [])
 
   function openResult(entry) {
@@ -33,6 +36,11 @@ export default function History() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {corruptedCount > 0 && (
+            <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mb-4">
+              One saved entry couldn&apos;t be loaded. Create a new analysis.
+            </p>
+          )}
           {entries.length === 0 ? (
             <p className="text-gray-500 py-4">No analyses yet. Run one from the Analyze page.</p>
           ) : (
@@ -65,7 +73,7 @@ export default function History() {
                       </div>
                     </div>
                     <div className="shrink-0 w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center">
-                      <span className="text-sm font-bold text-gray-900">{entry.readinessScore ?? 0}</span>
+                      <span className="text-sm font-bold text-gray-900">{entry.finalScore ?? entry.readinessScore ?? 0}</span>
                     </div>
                   </li>
                 )

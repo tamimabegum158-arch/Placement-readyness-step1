@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { getHistoryById, getLatestHistory, updateHistoryEntry } from '@/lib/historyStorage'
+import { normalizeEntryForView } from '@/lib/analysisSchema'
 import { CATEGORY_ORDER } from '@/lib/skillCategories'
 
 function clampScore(score) {
@@ -91,17 +92,19 @@ export default function Results() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const idFromUrl = searchParams.get('id')
-  const [entry, setEntry] = useState(location.state?.entry ?? null)
+  const [entry, setEntry] = useState(
+    location.state?.entry ? normalizeEntryForView(location.state.entry) : null
+  )
   const [loading, setLoading] = useState(!entry && (!!idFromUrl || !location.state))
 
   useEffect(() => {
     if (entry) return
     if (idFromUrl) {
       const found = getHistoryById(idFromUrl)
-      setEntry(found)
+      setEntry(found ? normalizeEntryForView(found) : null)
     } else {
       const latest = getLatestHistory()
-      setEntry(latest)
+      setEntry(latest ? normalizeEntryForView(latest) : null)
     }
     setLoading(false)
   }, [idFromUrl, entry])
@@ -123,7 +126,7 @@ export default function Results() {
       const allSkills = getAllSkillsFromCategories(entry?.extractedSkills?.categories ?? {})
       const base = entry?.baseReadinessScore ?? entry?.readinessScore ?? 0
       const liveScore = computeLiveScore(base, map, allSkills)
-      updateEntry({ skillConfidenceMap: map, readinessScore: liveScore })
+      updateEntry({ skillConfidenceMap: map, finalScore: liveScore, readinessScore: liveScore })
     },
     [entry, updateEntry]
   )

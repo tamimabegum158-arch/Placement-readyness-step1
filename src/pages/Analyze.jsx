@@ -20,12 +20,15 @@ export default function Analyze() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const jdLength = (jdText || '').trim().length
+  const showShortJdWarning = jdLength > 0 && jdLength < 200
+
   function handleSubmit(e) {
     e.preventDefault()
     setError('')
     const trimmedJd = (jdText || '').trim()
     if (!trimmedJd) {
-      setError('Please paste the job description.')
+      setError('Please paste a job description to analyze.')
       return
     }
     setLoading(true)
@@ -105,6 +108,11 @@ export default function Analyze() {
               <p className="text-xs text-gray-500 mt-1">
                 Longer JDs (800+ chars) can improve your readiness score.
               </p>
+              {showShortJdWarning && (
+                <p className="text-sm text-amber-700 mt-2">
+                  This JD is too short to analyze deeply. Paste full JD for better output.
+                </p>
+              )}
             </div>
             {error && (
               <p className="text-sm text-red-600">{error}</p>
